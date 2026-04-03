@@ -1,1 +1,1 @@
-Create a PPTX presentation with MacOS Photo Album content
+Create a PPTX presentation from MacOS Photo Album content

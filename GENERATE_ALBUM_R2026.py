@@ -280,23 +280,6 @@ def PPTX_add_run(le_paragraph,le_texte,*args,**kwargs):
 
     return run
 #=============================================================================================================
-def PPTX_add_hyperlink_to_slide(box, run , n_slide): #15/01/2026
-    box.click_action.target_slide = n_slide
-    run.hyperlink.address = box.click_action.hyperlink.address
-    run.hyperlink._hlinkClick.action = box.click_action.hyperlink._hlink.action
-    run.hyperlink._hlinkClick.rId = box.click_action.hyperlink._hlink.rId
-    box.click_action.target_slide = None
-    return
-#=============================================================================================================
-def box_font_size(wb,le_texte,size_max,size_min):
-    size = size_max
-    if wb > 0 and le_texte:
-        w_chr = (wb-1)/len(le_texte)
-        size = w_chr * 5
-        if size > size_max:size = size_max
-        if size < size_min: size = size_min
-    return size
-#=============================================================================================================
 def PPTX_add_page(le_document,le_layout):
     boxes = []
     la_page = le_document.slides.add_slide(le_document.slide_layouts[le_layout])
@@ -413,34 +396,6 @@ def PPTX_expand_picture(pic,x_bandeau) :
             pic.crop_top = (1 - pvh/pic.height)
         return
 #=============================================================================================================
-def PPTX_add_ligne_sommaire(box_sommaire,le_document,la_page,le_texte,*args):
-
-    if box_sommaire and le_texte : 
-
-        isSection = False
-        for valeur in args:  
-            if valeur: 
-                if isinstance(valeur,str): valeur =valeur.lower()
-                if valeur == "section" : isSection = True
-
-        if isinstance(le_texte, list): the_texte = " ".join(le_texte)
-        elif isinstance(le_texte, str): the_texte = le_texte
-        else : the_texte = "Erreur; pas de texte dans PPTX_add_ligne_sommaire"
-
-        p = PPTX_add_paragraph(box_sommaire,"left",level = 1)
-        slide_id = le_document.slides.index(la_page) + 1
-        le_run = PPTX_add_run(p,f'Page {slide_id:03d}')
-        if le_run : PPTX_add_hyperlink_to_slide(box_sommaire,le_run,la_page)
-
-        if isSection :
-            PPTX_add_run(p,f'  ')
-            PPTX_add_run(p,f'{the_texte}',"bold")
-        else:
-            PPTX_add_run(p,f'  • ',size=12)
-            PPTX_add_run(p,f'{the_texte}',size=12)
-
-    return 
-
 
 #===========================================================================================
 # DEBUT
